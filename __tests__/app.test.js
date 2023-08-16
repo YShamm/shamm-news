@@ -41,7 +41,12 @@ describe("app", () => {
   });
   describe("GET /api", () => {
     test("the response body equals contents of endpoints.json object", () => {
-      return request(app).get("/api").expect(200);
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.endpoints).toEqual(endpoints);
+        });
     });
   });
 });

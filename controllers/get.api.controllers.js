@@ -2,6 +2,7 @@ const { fetchAllTopics } = require("../models/get.api.models");
 const endpoints = require("../endpoints.json");
 
 exports.getTopics = (request, response, next) => {
+  console.log(request.body, "<<<req.bod in controller");
   fetchAllTopics()
     .then((topics) => {
       console.log(topics, "control topics");
