@@ -1,11 +1,14 @@
 const express = require("express");
 const app = express();
-const { getTopics } = require("./controllers/get.api.controllers");
+const { getTopics, getApi } = require("./controllers/get.api.controllers");
+
+app.use(express.json());
 
 app.get("/api/topics", getTopics);
+app.get("/api", getApi);
 
-app.use((req, res) => {
-  res.status(404).send({ msg: "not found" });
+app.use((req, response) => {
+  response.status(404).send({ msg: "not found" });
 });
 
 module.exports = app;
