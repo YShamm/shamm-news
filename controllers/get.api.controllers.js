@@ -26,3 +26,5 @@ exports.getArticleById = (req, res, next) => {
       next(err);
     });
 };
+
+// exports.getArticles = (req,res,next) =>{

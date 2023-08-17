@@ -25,6 +25,20 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+// app.use((err, req, res, next) => {
+//   if (err.status === 404 && err.msg) {
+//     res.status(404).send(err);
+//   }
+//   next(err);
+// });
+
+// app.use((err, req, res, next) => {
+//   if (err.status === 400 && err.msg) {
+//     res.status(400).send(err);
+//   }
+//   next(err);
+// });
+
 app.use((err, req, response, next) => {
   if (err.code === "22P02") {
     response.status(400).send({ msg: "id not valid" });
@@ -32,7 +46,16 @@ app.use((err, req, response, next) => {
   }
 });
 
+// app.use((err, req, response, next) => {
+//   // if (err.code === "22P02") {
+//   console.log(err, "not found err");
+//   response.status(404).send({ msg: "id not found" });
+//   next(err);
+//   // }
+// });
+
 app.use((err, req, response, next) => {
+  //console.log(err);
   response.status(500).send({ msg: "internal error" });
 });
 
