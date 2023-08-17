@@ -7,8 +7,6 @@ const {
   getArticles,
 } = require("./controllers/get.api.controllers");
 
-app.use(express.json());
-
 app.get("/api/topics", getTopics);
 app.get("/api", getApi);
 app.get("/api/articles/:article_id", getArticleById);
