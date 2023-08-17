@@ -5,6 +5,8 @@ const request = require("supertest");
 const testData = require("../db/data/test-data/index");
 const endpoints = require("../endpoints.json");
 
+require("jest-sorted");
+
 beforeEach(() => {
   return seed(testData);
 });
@@ -106,6 +108,19 @@ describe("app", () => {
             expect(article).toHaveProperty("votes");
             expect(article).toHaveProperty("comment_count");
           });
+        });
+    });
+
+    test("status:200, returns all the articles and checks the default sort & order is created_at in desc order", () => {
+      return request(app)
+        .get(`/api/articles`)
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body;
+          console.log(articles, "test articles");
+          expect(articles).toBeSortedBy("created_at", { descending: true });
+
+          expect(articles).toBeInstanceOf(Array);
         });
     });
   });
