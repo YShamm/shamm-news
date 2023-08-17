@@ -19,15 +19,8 @@ app.use((req, response, next) => {
 });
 
 app.use((err, req, res, next) => {
-  if (err.status === 404 && err.msg) {
-    res.status(404).send(err);
-  }
-  next(err);
-});
-
-app.use((err, req, res, next) => {
-  if (err.status === 400 && err.msg) {
-    res.status(400).send(err);
+  if (err.status && err.msg) {
+    res.status(err.status).send(err);
   }
   next(err);
 });
