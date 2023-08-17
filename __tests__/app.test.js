@@ -58,6 +58,7 @@ describe("app", () => {
         .get(`/api/articles/1`)
         .expect(200)
         .then(({ body }) => {
+          // console.log(body, "body");
           expect(body.article).toHaveProperty("article_id", 1);
           expect(body.article).toHaveProperty("title", expect.any(String));
           expect(body.article).toHaveProperty("topic", expect.any(String));
@@ -96,10 +97,11 @@ describe("app", () => {
         .expect(200)
         .then((response) => {
           const { articles } = response.body;
-
+          // console.log(articles);
           expect(articles).toBeInstanceOf(Array);
           expect(articles.length).toBe(13);
           articles.forEach((article) => {
+            // console.log(article, "test article log");
             expect(article).toHaveProperty("author");
             expect(article).toHaveProperty("title");
             expect(article).toHaveProperty("topic");
