@@ -5,6 +5,8 @@ const request = require("supertest");
 const testData = require("../db/data/test-data/index");
 const endpoints = require("../endpoints.json");
 
+require("jest-sorted");
+
 beforeEach(() => {
   return seed(testData);
 });
@@ -88,25 +90,40 @@ describe("app", () => {
     });
   });
 
-  // describe("GET api/articles", () => {
-  //   test("status:200, returns all articles", () => {
-  //     return request(app)
-  //       .get(`/api/articles`)
-  //       .expect(200)
-  //       .then((response) => {
-  //         const { articles } = response.body;
-  //         expect(articles).toBeInstanceOf(Array);
-  //         expect(articles.length).toBe(13);
-  //         articles.forEach((article) => {
-  //           expect(article).toHaveProperty("author", expect.any(String));
-  //           expect(article).toHaveProperty("title", expect.any(String));
-  //           expect(article).toHaveProperty("article_id", expect.any(String));
-  //           expect(article).toHaveProperty("topic", expect.any(String));
-  //           expect(article).toHaveProperty("created_at", expect.any(Number));
-  //           expect(article).toHaveProperty("votes", expect.any(String));
-  //           expect(article).toHaveProperty("comment_count", expect.any(String));
-  //         });
-  //       });
-  //   });
-  // });
+  describe("GET api/articles", () => {
+    test("status:200, returns all articles", () => {
+      return request(app)
+        .get(`/api/articles`)
+        .expect(200)
+        .then((response) => {
+          const { articles } = response.body;
+          // console.log(articles);
+          expect(articles).toBeInstanceOf(Array);
+          expect(articles.length).toBe(13);
+          articles.forEach((article) => {
+            // console.log(article, "test article log");
+            expect(article).toHaveProperty("author");
+            expect(article).toHaveProperty("title");
+            expect(article).toHaveProperty("topic");
+            expect(article).toHaveProperty("article_id");
+            expect(article).toHaveProperty("created_at");
+            expect(article).toHaveProperty("votes");
+            expect(article).toHaveProperty("comment_count");
+          });
+        });
+    });
+
+    test("status:200, returns all the articles and checks the default sort & order is created_at in desc order", () => {
+      return request(app)
+        .get(`/api/articles`)
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body;
+          console.log(articles, "test articles");
+          expect(articles).toBeSortedBy("created_at", { descending: true });
+
+          expect(articles).toBeInstanceOf(Array);
+        });
+    });
+  });
 });

@@ -26,18 +26,22 @@ exports.fetchArticleById = (id) => {
     });
 };
 
-// exports.fetchAllArticles = () =>{
-////topic, sort_by = "created_at", order = 'DESC') =>{
-//   return db
-//   .query(`SELECT articles.*,
-// COUNT(comments.article_id) as comment_count
-// FROM articles
-////YAHYA: HOW CAN I ALSO : COUNT(comments.article_id) as comment_count
-// GROUP BY articles.article_id
-// ORDER BY articles.created_at DESC;`)
-// }
-// .then((result)=>{
-//   if(rows.length === 0){
-//     return Promise.reject({status:404, msg: 'not found'})
-//   }
-// })
+exports.fetchAllArticles = () => {
+  return db
+    .query(
+      `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes,
+COUNT(comments.comment_id) AS comment_count
+FROM articles
+LEFT JOIN comments ON comments.article_id = articles.article_id
+GROUP BY articles.article_id
+ORDER BY articles.created_at DESC;`
+    )
+    .then((result) => {
+      if (result.rows.length === 0) {
+        // console.log("we in the model");
+        return Promise.reject({ status: 404, msg: "not found" });
+      }
+      return result.rows;
+    });
+};
+//might be missing line^

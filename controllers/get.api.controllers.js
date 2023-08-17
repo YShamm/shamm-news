@@ -1,6 +1,7 @@
 const {
   fetchAllTopics,
   fetchArticleById,
+  fetchAllArticles,
 } = require("../models/get.api.models");
 const endpoints = require("../endpoints.json");
 
@@ -27,4 +28,14 @@ exports.getArticleById = (req, res, next) => {
     });
 };
 
-// exports.getArticles = (req,res,next) =>{
+exports.getArticles = (req, res, next) => {
+  // console.log("in the controller");
+  fetchAllArticles()
+    // console
+    //   .log("in cont 2")
+    .then((articles) => {
+      // console.log("in cont 3");
+      res.status(200).send({ articles });
+    })
+    .catch(next);
+};
