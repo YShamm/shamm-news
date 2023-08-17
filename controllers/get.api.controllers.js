@@ -1,6 +1,7 @@
 const {
   fetchAllTopics,
   fetchArticleById,
+  fetchAllArticles,
 } = require("../models/get.api.models");
 const endpoints = require("../endpoints.json");
 
@@ -27,4 +28,11 @@ exports.getArticleById = (req, res, next) => {
     });
 };
 
-// exports.getArticles = (req,res,next) =>{
+exports.getArticles = (req, res, next) => {
+  fetchAllArticles()
+    .then((articles) => {
+      console.log("in cont 3");
+      res.status(200).send({ articles });
+    })
+    .catch(next);
+};
