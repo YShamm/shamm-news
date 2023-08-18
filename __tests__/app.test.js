@@ -175,3 +175,22 @@ describe("GET api/articles/:article_id/comments", () => {
       });
   });
 });
+
+// describe("POST /api/articles/:article_id/comments", () => {
+//   test("status:201, returns with new inserted comment", () => {
+//     // const id = 2;
+//     const comment = {
+//       author: "hater",
+//       body: "i hate this",
+//     };
+//     return request(app)
+//       .post(`/api/articles/2/comments`)
+//       .expect(201)
+//       .send(comment)
+//       .then(({ body }) => {
+//         expect(body.comments).toEqual({
+//           comment_19,
+//         });
+//       });
+//   });
+// });
