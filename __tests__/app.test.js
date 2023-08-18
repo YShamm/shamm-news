@@ -176,21 +176,56 @@ describe("GET api/articles/:article_id/comments", () => {
   });
 });
 
-// describe("POST /api/articles/:article_id/comments", () => {
-//   test("status:201, returns with new inserted comment", () => {
-//     // const id = 2;
-//     const comment = {
-//       author: "hater",
-//       body: "i hate this",
-//     };
-//     return request(app)
-//       .post(`/api/articles/2/comments`)
-//       .expect(201)
-//       .send(comment)
-//       .then(({ body }) => {
-//         expect(body.comments).toEqual({
-//           comment_19,
-//         });
-//       });
-//   });
-// });
+//POST TEST
+describe("POST /api/articles/:article_id/comments", () => {
+  test("status:201, returns with new inserted comment", () => {
+    // const id = 2;
+    const newComment = {
+      author: "rogersop",
+      body: "i hate this",
+    };
+    console.log("test log");
+    return request(app)
+      .post("/api/articles/2/comments")
+      .expect(201)
+      .send(newComment)
+      .then(({ body }) => {
+        expect(body.comments).toHaveProperty("comment_id", 19);
+        // expect(body.comments).toHaveProperty("newComment"); //maybe check
+        expect(body.comments).toHaveProperty("article_id", 2);
+        expect(body.comments).toHaveProperty("votes", 0);
+        expect(body.comments).toHaveProperty("created_at", expect.any(String));
+        expect(body.comments).toHaveProperty("body", "i hate this");
+        expect(body.comments).toHaveProperty("author", "rogersop");
+      });
+  });
+});
+
+//PATCH TEST
+describe("PATCH /api/articles/:article_id", () => {
+  test("status 200, updates article by id and accepts a newVote value ", () => {
+    const voteupdate = { inc_votes: 1 };
+
+    return request(app)
+      .patch(`/api/articles/1`)
+      .send(voteupdate)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).toHaveProperty("article_id", 1);
+        expect(body.article).toHaveProperty(
+          "title",
+          "Living in the shadow of a great man"
+        );
+        expect(body.article).toHaveProperty("topic", "mitch");
+        expect(body.article).toHaveProperty("author", "butter_bridge");
+        expect(body.article).toHaveProperty(
+          "body",
+          "I find this existence challenging"
+        );
+        expect(body.article).toHaveProperty("created_at", expect.any(String));
+        expect(body.article).toHaveProperty("votes", 101);
+
+        //expect(body.article.votes).toBe(101);
+      });
+  });
+});

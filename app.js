@@ -7,8 +7,10 @@ const {
   getArticles,
   getCommentsById,
   postComments,
-  //   patchById,
+  patchById,
 } = require("./controllers/get.api.controllers");
+
+app.use(express.json());
 
 app.get("/api/topics", getTopics);
 app.get("/api", getApi);
@@ -18,7 +20,7 @@ app.get("/api/articles/:article_id/comments", getCommentsById);
 
 app.post("/api/articles/:article_id/comments", postComments);
 
-// app.patch("/api/articles/:article_id", patchById);
+app.patch("/api/articles/:article_id", patchById);
 
 //error handling middleware
 app.use((req, response, next) => {
