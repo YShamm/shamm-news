@@ -58,7 +58,6 @@ describe("app", () => {
         .get(`/api/articles/1`)
         .expect(200)
         .then(({ body }) => {
-          // console.log(body, "body");
           expect(body.article).toHaveProperty("article_id", 1);
           expect(body.article).toHaveProperty("title", expect.any(String));
           expect(body.article).toHaveProperty("topic", expect.any(String));
@@ -97,11 +96,10 @@ describe("app", () => {
         .expect(200)
         .then((response) => {
           const { articles } = response.body;
-          // console.log(articles);
+
           expect(articles).toBeInstanceOf(Array);
           expect(articles.length).toBe(13);
           articles.forEach((article) => {
-            // console.log(article, "test article log");
             expect(article).toHaveProperty("author");
             expect(article).toHaveProperty("title");
             expect(article).toHaveProperty("topic");
@@ -119,7 +117,6 @@ describe("app", () => {
         .expect(200)
         .then(({ body }) => {
           const { articles } = body;
-          console.log(articles, "test articles");
           expect(articles).toBeSortedBy("created_at", { descending: true });
 
           expect(articles).toBeInstanceOf(Array);
@@ -130,14 +127,11 @@ describe("app", () => {
 
 describe.only("GET api/articles/:article_id/comments", () => {
   test("status:200, returns all the comments for a given article", () => {
-    console.log("log in the test");
     const id = 1;
     return request(app)
       .get(`/api/articles/${id}/comments`)
       .expect(200)
       .then((response) => {
-        console.log("log in test res");
-        console.log(response, " comment response test");
         expect(response.body.comments).toBeInstanceOf(Array);
         expect(response.body.comments).toHaveLength(11);
 
@@ -159,6 +153,15 @@ describe.only("GET api/articles/:article_id/comments", () => {
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("This id is not found");
+      });
+  });
+
+  test("status 400: id invalid, not a number", () => {
+    return request(app)
+      .get(`/api/articles/one/comments`)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("id not valid");
       });
   });
 });
