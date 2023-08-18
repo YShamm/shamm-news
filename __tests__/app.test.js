@@ -125,7 +125,7 @@ describe("app", () => {
   });
 });
 
-describe.only("GET api/articles/:article_id/comments", () => {
+describe("GET api/articles/:article_id/comments", () => {
   test("status:200, returns all the comments for a given article", () => {
     const id = 1;
     return request(app)

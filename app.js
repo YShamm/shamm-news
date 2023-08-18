@@ -6,6 +6,7 @@ const {
   getArticleById,
   getArticles,
   getCommentsById,
+  postComments,
   //   patchById,
 } = require("./controllers/get.api.controllers");
 
@@ -14,6 +15,8 @@ app.get("/api", getApi);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsById);
+
+app.post("/api/articles/:article_id/comments", postComments);
 
 // app.patch("/api/articles/:article_id", patchById);
 
@@ -32,7 +35,7 @@ app.use((err, req, res, next) => {
 
 app.use((err, req, response, next) => {
   if (err.code === "22P02") {
-    response.status(400).send({ msg: "id not valid" });
+    response.status(400).send({ msg: "id not valid" }); //change this to id/vote invalid
     next(err);
   }
 });
