@@ -5,16 +5,21 @@ const {
   getApi,
   getArticleById,
   getArticles,
+  getCommentsById,
+  //   patchById,
 } = require("./controllers/get.api.controllers");
 
 app.get("/api/topics", getTopics);
 app.get("/api", getApi);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles", getArticles);
+app.get("/api/articles/:article_id/comments", getCommentsById);
+
+// app.patch("/api/articles/:article_id", patchById);
 
 //error handling middleware
 app.use((req, response, next) => {
-  //   console.log(err, "404 err");
+  // console.log(err, "404 err"); <<<THIS WAS CAUSING THE PROBLEM, maybe semi colon?
   response.status(404).send({ msg: "not found" });
   next(err);
 });

@@ -2,6 +2,8 @@ const {
   fetchAllTopics,
   fetchArticleById,
   fetchAllArticles,
+  fetchCommentsById,
+  // updateVotes,
 } = require("../models/get.api.models");
 const endpoints = require("../endpoints.json");
 
@@ -38,4 +40,18 @@ exports.getArticles = (req, res, next) => {
       res.status(200).send({ articles });
     })
     .catch(next);
+};
+
+exports.getCommentsById = (req, response, next) => {
+  console.log("in the controller");
+  const id = req.params.article_id;
+  Promise.all([fetchArticleById(id), fetchCommentsById(id)])
+    .then((resArray) => {
+      const comments = resArray[1];
+      response.status(200).send({ comments });
+    })
+    .catch((err) => {
+      console.log(err);
+      next(err);
+    });
 };

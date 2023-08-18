@@ -127,3 +127,38 @@ describe("app", () => {
     });
   });
 });
+
+describe.only("GET api/articles/:article_id/comments", () => {
+  test("status:200, returns all the comments for a given article", () => {
+    console.log("log in the test");
+    const id = 1;
+    return request(app)
+      .get(`/api/articles/${id}/comments`)
+      .expect(200)
+      .then((response) => {
+        console.log("log in test res");
+        console.log(response, " comment response test");
+        expect(response.body.comments).toBeInstanceOf(Array);
+        expect(response.body.comments).toHaveLength(11);
+
+        let comments = response.body.comments;
+
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id", expect.any(Number));
+          expect(comment).toHaveProperty("votes", expect.any(Number));
+          expect(comment).toHaveProperty("created_at", expect.any(String));
+          expect(comment).toHaveProperty("author", expect.any(String));
+          expect(comment).toHaveProperty("body", expect.any(String));
+        });
+      });
+  });
+
+  test("status 404: id invalid, id type correct but does not exist", () => {
+    return request(app)
+      .get(`/api/articles/9001/comments`)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("This id is not found");
+      });
+  });
+});

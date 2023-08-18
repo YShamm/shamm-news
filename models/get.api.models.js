@@ -44,4 +44,18 @@ ORDER BY articles.created_at DESC;`
       return result.rows;
     });
 };
-//might be missing line^
+
+exports.fetchCommentsById = (id) => {
+  console.log("log in models");
+  return db
+    .query(
+      `SELECT * FROM comments WHERE article_id =$1 
+      ORDER BY created_at DESC;`,
+      [id]
+    )
+    .then(({ rows }) => {
+      console.log(rows);
+      console.log("in the model re comments");
+      return rows;
+    });
+};
