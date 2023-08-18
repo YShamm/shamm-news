@@ -164,4 +164,14 @@ describe.only("GET api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("id not valid");
       });
   });
+
+  test("status:200, returns empty arry when article has no comments", () => {
+    return request(app)
+      .get(`/api/articles/2/comments`)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments).toBeInstanceOf(Array);
+        expect(body.comments).toEqual([]);
+      });
+  });
 });
