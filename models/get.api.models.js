@@ -13,9 +13,7 @@ exports.fetchArticleById = (id) => {
       [id]
     )
     .then((result) => {
-      //console.log(result, "result");
       if (result.rows.length !== 0) {
-        // console.log(result.rows.length, " res rows");
         return result.rows[0];
       } else {
         return Promise.reject({
@@ -38,10 +36,20 @@ ORDER BY articles.created_at DESC;`
     )
     .then((result) => {
       if (result.rows.length === 0) {
-        // console.log("we in the model");
         return Promise.reject({ status: 404, msg: "not found" });
       }
       return result.rows;
     });
 };
-//might be missing line^
+
+exports.fetchCommentsById = (id) => {
+  return db
+    .query(
+      `SELECT * FROM comments WHERE article_id =$1 
+      ORDER BY created_at DESC;`,
+      [id]
+    )
+    .then(({ rows }) => {
+      return rows;
+    });
+};
